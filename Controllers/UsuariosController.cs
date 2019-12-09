@@ -10,17 +10,21 @@ namespace Usuarios.Controllers
     public class UsuariosController : Controller
     {
         //[HttpGet]
-        [Route("/Usuarios/Frank")]
-        [Route("[controller]/[action]/{data}")]
-        public IActionResult Index(string data, int age = 51)
+        //[Route("/Usuarios/Frank")]
+        //[HttpGet("[controller]/[action]/{data:int}")]
+        public IActionResult Index(int data)
         {
-            String datos = data+ " " + age;
-            return View("Index",datos);
+            //var url = Url.Action("Metodo","Usuarios",new { age= 51, name="Frank"});
+            //return View("Index",data);
+            var url = Url.RouteUrl("Franqui", new { age = 51, name = "Frank" });
+            return Redirect(url);
         }
 
-        public IActionResult Index()
-        {            
-            return View();
+        [HttpGet("[controller]/[action]",Name = "Franqui")]
+        public IActionResult Metodo(int age, string name)
+        {
+            var dato = $"Nombre {name} edad {age}";
+            return View("Index", dato);
         }
     }
 }
