@@ -20,6 +20,7 @@ namespace Usuarios.Controllers
 
         public IActionResult Index()
         {
+            throw new Exception("This is some exception!!!");
             return View();
         }
 
@@ -29,9 +30,22 @@ namespace Usuarios.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Error(int? statusCode = null)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            ErrorViewModel error = null;
+            if (statusCode != null)
+            {
+                error = new ErrorViewModel
+                {
+                    RequestId = Convert.ToString(statusCode)
+                };
+            }
+            else
+            {
+
+            }
+            return View(error);
+            //return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

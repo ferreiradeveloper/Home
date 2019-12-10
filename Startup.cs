@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
+using System.Net;
+using Microsoft.AspNetCore.Diagnostics;
 
 namespace Usuarios
 {
@@ -42,8 +44,22 @@ namespace Usuarios
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                //app.UseDeveloperExceptionPage();
+                //app.UseDatabaseErrorPage();
+                //app.UseExceptionHandler(options => {
+                //    options.Run(async context => {
+                //        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                //        context.Response.ContentType = "text/html";
+                //        var ex = context.Features.Get<IExceptionHandlerFeature>();
+                //        if (ex != null)
+                //        {
+                //            var error = $"<h1>Error: {ex.Error.Message}</h1>{ex.Error.StackTrace}";
+                //            await context.Response.WriteAsync(error).ConfigureAwait(false);
+                //        }
+                //    });
+                //});
+                app.UseExceptionHandler("/Home/Error");
+
             }
             else
             {
@@ -53,12 +69,17 @@ namespace Usuarios
             }
 
             //app.UseStatusCodePages("text/plain","Pagina de Codigos de Estado, codigo de estado: {0}");
-            app.UseStatusCodePages(async context => {
-                await context.HttpContext.Response.WriteAsync(
-                    "Pagina de Codigos de Estado, codigo de estado:" +
-                    context.HttpContext.Response.StatusCode
-                    );
-            });
+            //app.UseStatusCodePages(async context => {
+            //    await context.HttpContext.Response.WriteAsync(
+            //        "Pagina de Codigos de Estado, codigo de estado:" +
+            //        context.HttpContext.Response.StatusCode
+            //        );
+            //});
+            //Redireccion metodo 1
+            //app.UseStatusCodePagesWithRedirects("/Usuarios/Metodo?code={0}");
+
+            //Redireccion metodo 2
+            app.UseStatusCodePagesWithReExecute("/Home/Error","?statusCode={0}");
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

@@ -21,10 +21,10 @@ namespace Usuarios.Controllers
         }
 
         [HttpGet("[controller]/[action]",Name = "Franqui")]
-        public IActionResult Metodo(int age, string name)
+        public IActionResult Metodo(int code)
         {
-            var dato = $"Nombre {name} edad {age}";
-            return View("Index", dato);
+            var data = $"codigo de Estado {code}";
+            return View("Index", data);
         }
     }
 }
