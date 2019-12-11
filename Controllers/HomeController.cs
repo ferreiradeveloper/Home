@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Usuarios.Models;
@@ -20,7 +21,7 @@ namespace Usuarios.Controllers
 
         public IActionResult Index()
         {
-            throw new Exception("This is some exception!!!");
+            //throw new Exception("This is some exception!!!");
             return View();
         }
 
@@ -37,12 +38,22 @@ namespace Usuarios.Controllers
             {
                 error = new ErrorViewModel
                 {
-                    RequestId = Convert.ToString(statusCode)
+                    RequestId = Convert.ToString(statusCode),
+                    ErrorMessage = "Se produjo un error al procesar su solicitud",
                 };
             }
             else
             {
+                var exceptionFeautre = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+                if (exceptionFeautre != null)
+                {
+                    error = new ErrorViewModel
+                    {
+                        RequestId = "500",
+                        ErrorMessage = exceptionFeautre.Error.Message,
+                    };
 
+                }
             }
             return View(error);
             //return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
