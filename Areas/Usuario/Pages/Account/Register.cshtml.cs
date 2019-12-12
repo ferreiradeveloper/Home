@@ -37,10 +37,16 @@ namespace Usuarios.Areas.Usuario.Pages.Account
             [DataType(DataType.Password)]
             [Compare("Password", ErrorMessage = "Error: Contraceña y Confirmacion no coinciden")]
             public string ConfirmarPassword { get; set; }
+
+            
         }
 
         public IActionResult OnPost()
         {
+            if (ModelState.IsValid)
+            {
+
+            }
             var data = Input;
             return Page();
         }
