@@ -15,19 +15,16 @@
                 <div class="card-body">
                     <form method="post">
                         <div class="form-group">
-                            @*<label asp-for="Input.Email"></label>*@
                             <input asp-for="Input.Email" class="form-control" placeholder="Email" />
                             <span asp-validation-for="Input.Email" class="text-danger"></span>
                         </div>
 
                         <div class="form-group">
-                            @*<label asp-for="Input.Password"></label>*@
                             <input asp-for="Input.Password" class="form-control" placeholder="Contraseña" />
                             <span asp-validation-for="Input.Password" class="text-danger"></span>
                         </div>
 
                         <div class="form-group">
-                            @*<label asp-for="Input.Password"></label>*@
                             <input asp-for="Input.ConfirmarPassword" class="form-control" placeholder="Confirmar Contraseña" />
                             <span asp-validation-for="Input.ConfirmarPassword" class="text-danger"></span>
                         </div>
@@ -36,6 +33,7 @@
                             <button type="submit" class="btn-block btn-primary">Registrar</button>
                         </div>
                     </form>
+                    <label id="Message" class="text-danger"> @Html.DisplayFor(m => m.Input.ErrorMessage) </label>
                 </div>
             </div>
         </div>
