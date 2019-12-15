@@ -13,13 +13,17 @@ namespace Usuarios.Areas.Usuario.Pages.Account
     public class RegisterModel : PageModel
     {
         private UserManager<IdentityUser> _userManager;
+        private static InputModel _input = null;
         public RegisterModel(UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
         }
         public void OnGet(string data)
         {
-           
+           if (_input != null)
+            {
+                Input = _input;
+            }
         }
 
         [BindProperty]
@@ -51,6 +55,23 @@ namespace Usuarios.Areas.Usuario.Pages.Account
 
         public async Task<IActionResult> OnPostAsync()
         {
+            if (await RegisterUserAsync())
+            {
+                return Redirect("/Principal/Principal?area=Principal");
+            }
+            else
+            {
+                return Redirect("/Usuario/Register");
+            }
+            
+            
+        }
+
+
+        private async Task<bool> RegisterUserAsync()
+        {
+            var run = false;
+
             if (ModelState.IsValid)
             {
                 var userList = _userManager.Users.Where(u => u.Email.Equals(Input.Email)).ToList();
@@ -64,7 +85,7 @@ namespace Usuarios.Areas.Usuario.Pages.Account
                     var result = await _userManager.CreateAsync(user, Input.Password);
                     if (result.Succeeded)
                     {
-                        return Page();
+                        run = true;
                     }
                     else
                     {
@@ -73,21 +94,29 @@ namespace Usuarios.Areas.Usuario.Pages.Account
                             Input = new InputModel
                             {
                                 ErrorMessage = item.Description,
+                                Email = Input.Email
                             };
                         }
-                        return Page();
+                        _input = Input;
+                        run = false;
                     }
                 }
                 else
                 {
                     Input = new InputModel
                     {
-                        ErrorMessage = $"El {Input.Email} ya esta registrado",
+                        ErrorMessage = $"El {Input.Email} ya esta registrado en la base de datos",
+                        Email = Input.Email
                     };
+                    _input = Input;
+                    run = false;
                 }
             }
-            return Page();
+            return run;
+
         }
+
+
         
     }
 }
