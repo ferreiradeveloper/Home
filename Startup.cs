@@ -46,20 +46,7 @@ namespace Usuarios
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-                //app.UseExceptionHandler(options => {
-                //    options.Run(async context => {
-                //        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                //        context.Response.ContentType = "text/html";
-                //        var ex = context.Features.Get<IExceptionHandlerFeature>();
-                //        if (ex != null)
-                //        {
-                //            var error = $"<h1>Error: {ex.Error.Message}</h1>{ex.Error.StackTrace}";
-                //            await context.Response.WriteAsync(error).ConfigureAwait(false);
-                //        }
-                //    });
-                //});
-                //app.UseExceptionHandler("/Home/Error");
-
+         
             }
             else
             {
@@ -68,13 +55,6 @@ namespace Usuarios
                 app.UseHsts();
             }
 
-            //app.UseStatusCodePages("text/plain","Pagina de Codigos de Estado, codigo de estado: {0}");
-            //app.UseStatusCodePages(async context => {
-            //    await context.HttpContext.Response.WriteAsync(
-            //        "Pagina de Codigos de Estado, codigo de estado:" +
-            //        context.HttpContext.Response.StatusCode
-            //        );
-            //});
             //Redireccion metodo 1
             //app.UseStatusCodePagesWithRedirects("/Usuarios/Metodo?code={0}");
 
@@ -95,7 +75,8 @@ namespace Usuarios
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-                endpoints.MapAreaControllerRoute("Usuarios", "Usuario", "{controller=Ususario}/{action=Usuario}/{id?}"); 
+                endpoints.MapAreaControllerRoute("Usuarios", "Usuario", "{controller=Ususario}/{action=Usuario}/{id?}");
+                endpoints.MapAreaControllerRoute("Principal", "Principal", "{controller=Principal}/{action=Principal}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
